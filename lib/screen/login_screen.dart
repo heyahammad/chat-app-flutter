@@ -11,6 +11,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool rememberme = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.heightOf(context);
@@ -41,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 top: height * 0.075,
                 left: 0,
                 right: 0,
-                height: 100,
+
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   mainAxisSize: MainAxisSize.max,
@@ -96,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                         ),
                       ),
-                      SizedBox(height: 8),
+
                       Text(
                         'Or',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -104,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: height * 0.014,
                         ),
                       ),
-                      SizedBox(height: 10),
+
                       SizedBox(
                         width: width * 0.7,
                         child: Form(
@@ -115,6 +116,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: InputDecoration(
                                   labelText: 'Email Address',
                                   hintText: 'name@example.com',
+                                  labelStyle: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                        color: Colors.grey,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                        color: Colors.grey,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                                   prefixIcon: Icon(Icons.email_outlined),
 
                                   border: OutlineInputBorder(
@@ -124,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
                                     borderSide: BorderSide(
-                                      color: Colors.blue,
+                                      color: Color.fromARGB(255, 42, 105, 232),
                                       width: 2,
                                     ),
                                   ),
@@ -136,13 +153,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              SizedBox(height: 16),
                               TextFormField(
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   labelText: 'Password',
+                                  labelStyle: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                        color: Colors.grey,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal,
+                                      ),
 
-                                  prefixIcon: Icon(Icons.email_outlined),
+                                  prefixIcon: Icon(Icons.password_outlined),
 
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -151,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
                                     borderSide: BorderSide(
-                                      color: Colors.blue,
+                                      color: Color.fromARGB(255, 42, 105, 232),
                                       width: 2,
                                     ),
                                   ),
@@ -163,32 +188,87 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
+                              SizedBox(height: 16),
+
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  CheckboxListTile(
-                                    title: Text(
-                                      'Remember me',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge!
-                                          .copyWith(
-                                            fontSize: height * 0.013,
-                                            color: Color.fromARGB(
-                                              255,
-                                              151,
-                                              151,
-                                              151,
-                                            ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        rememberme = !rememberme;
+                                      });
+                                    },
+                                    child: rememberme
+                                        ? Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                Icons.check_circle_outline,
+                                                color: Color.fromARGB(
+                                                  255,
+                                                  42,
+                                                  105,
+                                                  232,
+                                                ),
+                                              ),
+                                              SizedBox(width: 2),
+                                              Text(
+                                                'Remember me',
+
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .copyWith(
+                                                      fontSize: height * 0.013,
+                                                      color: Color.fromARGB(
+                                                        255,
+                                                        42,
+                                                        105,
+                                                        232,
+                                                      ),
+                                                    ),
+                                              ),
+                                            ],
+                                          )
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                Icons.check_circle_outline,
+                                                color: Color.fromARGB(
+                                                  255,
+                                                  184,
+                                                  184,
+                                                  184,
+                                                ),
+                                              ),
+                                              SizedBox(width: 2),
+                                              Text(
+                                                'Remember me',
+
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .copyWith(
+                                                      fontSize: height * 0.013,
+                                                      color: Color.fromARGB(
+                                                        255,
+                                                        184,
+                                                        184,
+                                                        184,
+                                                      ),
+                                                    ),
+                                              ),
+                                            ],
                                           ),
-                                    ),
-                                    value: false,
-                                    onChanged: (value) {},
                                   ),
-                                  TextButton(
-                                    onPressed: () {},
+                                  GestureDetector(
+                                    onTap: () {},
                                     child: Text(
                                       'Forget Password?',
 
@@ -208,6 +288,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ],
                               ),
+                              SizedBox(height: 16),
                               InkWell(
                                 onTap: () {},
 
@@ -241,14 +322,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Text('Dont have an account?'),
                                   TextButton(
                                     onPressed: () {},
-                                    child: Text('Sign Up'),
+                                    child: Text(
+                                      'Sign Up',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(
+                                            fontSize: height * 0.013,
+                                            color: Color.fromARGB(
+                                              255,
+                                              42,
+                                              105,
+                                              232,
+                                            ),
+                                          ),
+                                    ),
                                   ),
                                 ],
                               ),
