@@ -1,7 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:say/screen/signup_screeen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,7 +9,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final keyForm = GlobalKey<FormState>();
   bool rememberme = false;
+  bool islogin = true;
+  String mail = '';
+  String password = '';
+
+  void login() {
+    if (keyForm.currentState!.validate()) {
+      keyForm.currentState!.save();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.heightOf(context);
@@ -22,6 +31,15 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
+          /*
+
+
+
+Heres the Solid Background.
+
+
+
+*/
           Stack(
             children: [
               Container(
@@ -30,6 +48,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: BoxDecoration(color: Colors.white),
               ),
 
+              /*
+
+
+
+Heres the Header logo, texts and blue section.
+
+
+
+*/
               Positioned(
                 top: 0,
                 child: SizedBox(
@@ -58,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ).textTheme.titleLarge!.copyWith(fontSize: height * 0.05),
                       textAlign: TextAlign.center,
                     ),
+                    SizedBox(height: 15),
                     Text(
                       'Enter your email & password to sign in',
                       textAlign: TextAlign.center,
@@ -69,8 +97,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
 
+              /*
+
+
+
+Heres the floating from.
+
+
+
+*/
               Positioned(
-                top: height * 0.38,
+                top: height * 0.36,
                 left: (width - (width * 0.88)) / 2,
                 width: width * 0.88,
                 child: Container(
@@ -106,9 +143,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
 
+                      /*
+
+
+
+Heres the exact from appears.
+
+
+
+*/
                       SizedBox(
                         width: width * 0.7,
                         child: Form(
+                          key: keyForm,
                           child: Column(
                             children: [
                               TextFormField(
@@ -152,6 +199,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                 ),
+                                autocorrect: false,
+                                textCapitalization: TextCapitalization.none,
+
+                                validator: (value) {
+                                  if (!value.toString().contains('@') ||
+                                      value == null) {
+                                    return 'Please enter a valid email address';
+                                  }
+                                },
+                                onSaved: (newValue) =>
+                                    mail = newValue.toString(),
                               ),
                               SizedBox(height: 16),
                               TextFormField(
@@ -187,7 +245,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                 ),
+                                autocorrect: false,
+                                textCapitalization: TextCapitalization.none,
+
+                                validator: (value) {
+                                  if (value.toString().isEmpty ||
+                                      value == null) {
+                                    return 'Please enter your password';
+                                  }
+                                },
+                                onSaved: (newValue) =>
+                                    password = newValue.toString(),
                               ),
+
+                              /*
+
+
+
+TextField (mail, password end here)
+
+
+
+*/
                               SizedBox(height: 16),
 
                               Row(
@@ -289,8 +368,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ],
                               ),
                               SizedBox(height: 16),
+
+                              /*
+
+
+
+Heres the Log IN Button
+
+
+
+*/
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  login();
+                                },
 
                                 child: Container(
                                   width: width * 0.7,
@@ -327,7 +418,60 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   Text('Dont have an account?'),
                                   TextButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        /*
+                                        
+                                        Custom animation page switching
+                                        
+                                        */
+                                        PageRouteBuilder(
+                                          pageBuilder:
+                                              (
+                                                context,
+                                                animation,
+                                                secondaryAnimation,
+                                              ) => const SignUpScreen(),
+                                          transitionsBuilder:
+                                              (
+                                                context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child,
+                                              ) {
+                                                const begin = Offset(
+                                                  1.0,
+                                                  0.0,
+                                                ); // Start position (bottom of screen)
+                                                const end = Offset
+                                                    .zero; // End position (original position)
+                                                const curve = Curves
+                                                    .ease; // Animation curve
+
+                                                var tween =
+                                                    Tween(
+                                                      begin: begin,
+                                                      end: end,
+                                                    ).chain(
+                                                      CurveTween(curve: curve),
+                                                    );
+
+                                                return SlideTransition(
+                                                  position: animation.drive(
+                                                    tween,
+                                                  ),
+                                                  child: child,
+                                                );
+                                              },
+                                          transitionDuration: const Duration(
+                                            milliseconds: 500,
+                                          ), // Duration for push and pop
+                                          reverseTransitionDuration: const Duration(
+                                            milliseconds: 500,
+                                          ), // Ensures pop has a noticeable animation
+                                        ),
+                                      );
+                                    },
                                     child: Text(
                                       'Sign Up',
                                       style: Theme.of(context)

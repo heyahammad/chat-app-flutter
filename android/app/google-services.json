@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "927698760594",
+    "project_id": "chatapp-faisal",
+    "storage_bucket": "chatapp-faisal.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927698760594:android:18bbbc8f4d754c736f874b",
+        "android_client_info": {
+          "package_name": "com.example.say"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaErB-fceJhYmir0RrA_0FnlTmWBddmxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
