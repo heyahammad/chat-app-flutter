@@ -1,8 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:say/screen/auth_screen.dart';
+
+import 'package:google_nav_bar/google_nav_bar.dart';
+
+import 'package:hugeicons/hugeicons.dart';
+
+import 'package:say/screen/profile_screen.dart';
+import 'package:say/screen/settings_screen.dart';
+
+String firstname = '';
+String lastname = '';
+String username = '';
+DateTime? dob;
+String mail = '';
 
 final user = FirebaseAuth.instance.currentUser;
 final store = FirebaseFirestore.instance;
@@ -15,19 +30,12 @@ class HomneScreen extends StatefulWidget {
 }
 
 class _HomneScreenState extends State<HomneScreen> {
-  String firstname = '';
-  String lastname = '';
-  String username = '';
-  DateTime? dob;
-  String mail = '';
-
   @override
   Widget build(BuildContext context) {
     Widget content = Container(
-      decoration: BoxDecoration(
-        color: 
-      ),
-      child: Center(child: Text(mail)));
+      decoration: BoxDecoration(color: Colors.white60),
+      child: Center(child: Text(mail)),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -40,17 +48,68 @@ class _HomneScreenState extends State<HomneScreen> {
             padding: const EdgeInsets.only(right: 5.0),
             child: IconButton(
               onPressed: () {
-                FirebaseAuth.instance.signOut();
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (content) => SettingsScreen()),
+                );
               },
+              // icon: HugeIcon(
+              //   icon: HugeIcons.strokeRoundedUserCircle,
+              //   size: 35,
+              //   strokeWidth: 2,
+              //   color: Colors.blueAccent,
+              // ),
               icon: Icon(
-                Icons.logout_outlined,
-                color: Colors.blueAccent,
-                fontWeight: FontWeight.bold,
+                CupertinoIcons.settings,
                 size: 30,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: MediaQuery.sizeOf(context).width * 0.8,
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(15, 0, 0, 0),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: GNav(
+                  rippleColor: Colors.grey[300]!,
+                  hoverColor: Colors.grey[100]!,
+                  gap: 8,
+                  activeColor: Colors.black,
+                  iconSize: 24,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 12,
+                  ),
+                  duration: const Duration(milliseconds: 400),
+                  tabBackgroundColor: Colors.grey[100]!,
+                  color: Colors.black,
+                  tabShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      blurRadius: 8,
+                    ),
+                  ],
+
+                  tabs: const [
+                    GButton(icon: LineIcons.home, text: 'Home'),
+                    GButton(icon: LineIcons.list, text: 'People'),
+                    GButton(icon: LineIcons.search, text: 'Search'),
+                    GButton(icon: LineIcons.user, text: 'Profile'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: StreamBuilder(
         stream: store.collection('users').doc(user!.uid).snapshots(),
