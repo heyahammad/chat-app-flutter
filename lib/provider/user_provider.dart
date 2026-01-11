@@ -1,32 +1,44 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:say/model/user.dart';
 
-import 'package:say/screen/home_screen.dart';
+class UserNotifier extends StateNotifier<User?> {
+  UserNotifier() : super(null);
 
-class UserNotifier extends StateNotifier<User> {
-  UserNotifier()
-    : super(
-        User(
-          firstname: firstname,
-          lastname: lastname,
-          username: username,
-          dob: dob!,
-          mail: mail,
-        ),
+  Future<void> loadUser() async {
+    final currentuser = auth.FirebaseAuth.instance.currentUser;
+
+    final userDataInstance = FirebaseFirestore.instance;
+
+    final snapshot = await userDataInstance
+        .collection('users')
+        .doc(currentuser!.uid)
+        .get();
+
+    if (snapshot.exists) {
+      final userData = snapshot.data() as Map<String, dynamic>;
+      state = User(
+        firstname: userData['firstname'],
+        lastname: userData['lastname'],
+        username: userData['username'],
+        dob: DateTime.parse(userData['dob']),
+        mail: currentuser.email!,
       );
+    }
+  }
 
-  void updateUserProfile(String fname, String lname, DateTime birth) {
-    final updateUser = User(
+  void updateUserDetails(String fname, String lname, DateTime dob) {
+    state = User(
       firstname: fname,
       lastname: lname,
-      dob: birth,
-      mail: mail,
-      username: username,
+      username: state!.username,
+      dob: dob,
+      mail: state!.mail,
     );
-    state = updateUser;
   }
 }
 
-final userNotifierProvider = StateNotifierProvider<UserNotifier, User>(
+final userNotifierProvider = StateNotifierProvider<UserNotifier, User?>(
   (ref) => UserNotifier(),
 );

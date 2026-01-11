@@ -45,6 +45,7 @@ dependencies:
   line_icons: ^2.0.3
   cupertino: ^0.0.1
   string_extension: ^0.0.1
+  flutter_native_splash: ^2.4.7
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,13 @@ flutter:
     - assets/icons/google.svg
     - assets/icons/google.png
     - assets/images/userdp.png
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/logo.png
+  android_12:
+    image: assets/logo.png
+    color: "#ffffff"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

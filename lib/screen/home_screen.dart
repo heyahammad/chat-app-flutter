@@ -2,40 +2,48 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:say/screen/auth_screen.dart';
 
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:say/provider/user_provider.dart';
 
-import 'package:hugeicons/hugeicons.dart';
-
-import 'package:say/screen/profile_screen.dart';
 import 'package:say/screen/settings_screen.dart';
-
-String firstname = '';
-String lastname = '';
-String username = '';
-DateTime? dob;
-String mail = '';
 
 final user = FirebaseAuth.instance.currentUser;
 final store = FirebaseFirestore.instance;
 
-class HomneScreen extends StatefulWidget {
+class HomneScreen extends ConsumerStatefulWidget {
   const HomneScreen({super.key});
 
   @override
-  State<HomneScreen> createState() => _HomneScreenState();
+  ConsumerState<HomneScreen> createState() => _HomneScreenState();
 }
 
-class _HomneScreenState extends State<HomneScreen> {
+class _HomneScreenState extends ConsumerState<HomneScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(userNotifierProvider.notifier).loadUser();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget content = Container(
-      decoration: BoxDecoration(color: Colors.white60),
-      child: Center(child: Text(mail)),
-    );
+    final user = ref.watch(userNotifierProvider);
+    Widget content;
+    if (user == null) {
+      content = Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      );
+    } else {
+      content = Container(
+        decoration: BoxDecoration(color: Colors.white60),
+        child: Center(child: Text(ref.watch(userNotifierProvider)!.mail)),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -111,32 +119,7 @@ class _HomneScreenState extends State<HomneScreen> {
           ),
         ),
       ),
-      body: StreamBuilder(
-        stream: store.collection('users').doc(user!.uid).snapshots(),
-        builder: (ctx, snapshots) {
-          if (snapshots.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            );
-          }
-          if (snapshots.hasData) {
-            final userData = snapshots.data!.data() as Map<String, dynamic>;
-            firstname = userData['firstname'];
-            lastname = userData['lastname'];
-            username = userData['username'];
-            dob = DateTime.parse(userData['dob']);
-            mail = user!.email!;
-
-            return content;
-          }
-          if (snapshots.hasError) {
-            return Center(child: Text('Something went wrong!'));
-          }
-          return Center(child: Text('Something went wrong!'));
-        },
-      ),
+      body: content,
     );
   }
 }

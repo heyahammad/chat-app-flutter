@@ -1,15 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:say/provider/user_provider.dart';
 
 import 'package:say/screen/home_screen.dart';
 import 'package:string_extension/string_extension.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
+  @override
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.heightOf(context);
@@ -50,7 +56,7 @@ class SettingsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${firstname.capitalize()} ${lastname.capitalize()}',
+                            '${ref.watch(userNotifierProvider)!.firstname.capitalize()} ${ref.watch(userNotifierProvider)!.lastname.capitalize()}',
                             style: Theme.of(context).textTheme.titleLarge!
                                 .copyWith(
                                   color: Theme.of(
@@ -80,7 +86,10 @@ class SettingsScreen extends StatelessWidget {
             Positioned(
               child: TextButton(
                 onPressed: () {
-                  FirebaseAuth.instance.signOut();
+                  setState(() {
+                    FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pop();
+                  });
                 },
                 child: Text(
                   "Logout",

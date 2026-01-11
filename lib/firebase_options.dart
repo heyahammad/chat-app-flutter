@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '927698760594',
     projectId: 'chatapp-faisal',
     storageBucket: 'chatapp-faisal.firebasestorage.app',
+    iosClientId: '927698760594-55b1f9pbgvehmhiskm836k1eg48cjh28.apps.googleusercontent.com',
     iosBundleId: 'com.example.say',
   );
 
