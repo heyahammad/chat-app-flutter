@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:say/provider/user_provider.dart';
 
 import 'package:say/screen/home_screen.dart';
@@ -31,77 +32,441 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ),
       ),
       child: SizedBox(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              padding: EdgeInsets.all(10),
-              width: width * 0.9,
-              height: height * 0.12,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(255)),
-                color: Color.fromARGB(130, 216, 216, 216),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(255)),
-                    child: Image.asset('assets/images/userdp.png', width: 100),
-                  ),
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.all(20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${ref.watch(userNotifierProvider)!.firstname.capitalize()} ${ref.watch(userNotifierProvider)!.lastname.capitalize()}',
-                            style: Theme.of(context).textTheme.titleLarge!
-                                .copyWith(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface,
-                                ),
-                          ),
+        child: Container(
+          margin: EdgeInsets.symmetric(
+            horizontal: width * 0.05,
+            vertical: height * 0.05,
+          ),
+          height: double.maxFinite,
+          width: double.maxFinite,
 
-                          Text(
-                            'Niver Give Up...',
-                            style: Theme.of(context).textTheme.titleLarge!
-                                .copyWith(
-                                  fontSize: 15,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface,
-                                ),
+          child: ListView(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(10),
+
+                    height: height * 0.12,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(255)),
+                      color: Color.fromARGB(80, 216, 216, 216),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(255)),
+                          child: Image.asset(
+                            'assets/images/userdp.png',
+                            width: 100,
                           ),
-                        ],
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '${ref.watch(userNotifierProvider)!.firstname.capitalize()} ${ref.watch(userNotifierProvider)!.lastname.capitalize()}',
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
+                                ),
+                                Text(
+                                  '@${ref.watch(userNotifierProvider)!.username}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface.withAlpha(150),
+                                      ),
+                                ),
+                                Text(
+                                  'never give up',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontSize: 15,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /*
+                
+                
+                buttons
+                
+                
+                
+                */
+                  SizedBox(height: height * 0.02),
+                  Container(
+                    padding: EdgeInsets.all(10),
+
+                    height: height * 0.08,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(255)),
+                      color: Color.fromARGB(80, 216, 216, 216),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                      children: [
+                        Container(
+                          height: width * 0.12,
+                          width: width * 0.12,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(255),
+                            ),
+                          ),
+                          child: Icon(
+                            LineIcons.key,
+                            size: 35,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(255),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Account',
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
+                                ),
+                                Text(
+                                  'Privacy, Security, Two Factor authentication',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface.withAlpha(150),
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  Container(
+                    padding: EdgeInsets.all(10),
+
+                    height: height * 0.08,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(255)),
+                      color: Color.fromARGB(80, 216, 216, 216),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                      children: [
+                        Container(
+                          height: width * 0.12,
+                          width: width * 0.12,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(255),
+                            ),
+                          ),
+                          child: Icon(
+                            LineIcons.facebookMessenger,
+                            size: 35,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(255),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Chat',
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
+                                ),
+                                Text(
+                                  'Chat history, thene, walpaper',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface.withAlpha(150),
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  Container(
+                    padding: EdgeInsets.all(10),
+
+                    height: height * 0.08,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(255)),
+                      color: Color.fromARGB(80, 216, 216, 216),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                      children: [
+                        Container(
+                          height: width * 0.12,
+                          width: width * 0.12,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(255),
+                            ),
+                          ),
+                          child: Icon(
+                            LineIcons.bell,
+                            size: 35,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(255),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Notifications',
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
+                                ),
+                                Text(
+                                  'Messages, group and others',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface.withAlpha(150),
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  Container(
+                    padding: EdgeInsets.all(10),
+
+                    height: height * 0.08,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(255)),
+                      color: Color.fromARGB(80, 216, 216, 216),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                      children: [
+                        Container(
+                          height: width * 0.12,
+                          width: width * 0.12,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(255),
+                            ),
+                          ),
+                          child: Icon(
+                            LineIcons.questionCircle,
+                            size: 35,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(255),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Help',
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
+                                ),
+                                Text(
+                                  'Help center,contact us, privacy policy',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface.withAlpha(150),
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+                  Container(
+                    padding: EdgeInsets.all(10),
+
+                    height: height * 0.08,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(255)),
+                      color: Color.fromARGB(80, 216, 216, 216),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                      children: [
+                        Container(
+                          height: width * 0.12,
+                          width: width * 0.12,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(255),
+                            ),
+                          ),
+                          child: Icon(
+                            LineIcons.userFriends,
+                            size: 35,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withAlpha(255),
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Invite a friend',
+                                  style: Theme.of(context).textTheme.titleLarge!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: height * 0.02),
+
+                  /*
+                    
+                    
+                    
+                    Logout
+                    
+                    
+                    
+                    */
+                  Positioned(
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          FirebaseAuth.instance.signOut();
+                          Navigator.of(context).pop();
+                        });
+                      },
+                      child: Text(
+                        "Logout",
+                        style: GoogleFonts.poppins(
+                          color: Colors.redAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            Row(children: []),
-            Positioned(
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.of(context).pop();
-                  });
-                },
-                child: Text(
-                  "Logout",
-                  style: GoogleFonts.poppins(
-                    color: Colors.redAccent,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
