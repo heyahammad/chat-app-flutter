@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class User {
   const User({
     required this.firstname,
@@ -5,6 +7,8 @@ class User {
     required this.username,
     required this.dob,
     required this.mail,
+    this.bio,
+    this.dp,
   });
 
   final String firstname;
@@ -12,4 +16,6 @@ class User {
   final String username;
   final DateTime dob;
   final String mail;
+  final String? bio;
+  final File? dp;
 }

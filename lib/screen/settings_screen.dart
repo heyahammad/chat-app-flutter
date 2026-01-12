@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class SettingsScreen extends ConsumerStatefulWidget {
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    final dp = ref.watch(userNotifierProvider)!.dp;
     final height = MediaQuery.heightOf(context);
     final width = MediaQuery.widthOf(context);
     return CupertinoPageScaffold(
@@ -58,12 +61,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(255)),
-                          child: Image.asset(
-                            'assets/images/userdp.png',
-                            width: 100,
-                          ),
+                        CircleAvatar(
+                          radius: height * 0.05,
+                          backgroundImage: FileImage(dp!),
                         ),
                         Expanded(
                           child: Container(

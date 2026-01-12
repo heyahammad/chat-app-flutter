@@ -1,15 +1,191 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class ProfileScreen extends StatefulWidget {
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:say/provider/user_provider.dart';
+
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(), body: Container());
+    // final key = GlobalKey<FormFieldState>();
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
+
+    final dp = ref.watch(userNotifierProvider)!.dp;
+
+    String name =
+        '${ref.read(userNotifierProvider)!.firstname} ${ref.read(userNotifierProvider)!.lastname}';
+    String email = ref.read(userNotifierProvider)!.mail;
+
+    void updateDp() async {
+      final tookImage = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+      );
+
+      if (tookImage == null) {
+        return;
+      }
+
+      File image = File(tookImage.path);
+
+      ref.watch(userNotifierProvider.notifier).updateDpBio('', image);
+    }
+
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Profile'),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(CupertinoIcons.back),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      child: Container(
+        margin: EdgeInsets.symmetric(
+          horizontal: width * 0.05,
+          vertical: height * 0.005,
+        ),
+        child: ListView(
+          children: [
+            GestureDetector(
+              onTap: () {
+                updateDp();
+              },
+              child: CircleAvatar(
+                radius: width * 0.2,
+                backgroundImage: dp == null
+                    ? AssetImage('assets/images/defaultdp.png')
+                    : FileImage(dp),
+              ),
+            ),
+            SizedBox(height: height * 0.02),
+            Text(
+              name,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontSize: 25,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              '@${ref.read(userNotifierProvider)!.username}',
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color: Colors.black.withAlpha(180),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: height * 0.1),
+
+            Text(
+              'Display Name',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: 18,
+                color: Colors.black.withAlpha(150),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              name,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontSize: 28,
+                color: Colors.black.withAlpha(255),
+              ),
+            ),
+
+            SizedBox(height: height * 0.02),
+
+            Text(
+              'Email',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontSize: 18,
+                color: Colors.black.withAlpha(150),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              email,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                fontSize: 28,
+                color: Colors.black.withAlpha(255),
+              ),
+            ),
+
+            // Form(
+            //   key: key,
+            //   child: Column(
+            //     children: [
+            //       TextFormField(
+            //         initialValue: name,
+            //         decoration: InputDecoration(
+            //           labelText: 'Display Name',
+            //           labelStyle: Theme.of(context).textTheme.titleMedium!
+            //               .copyWith(
+            //                 fontSize: 25,
+            //                 color: Colors.black.withAlpha(150),
+            //               ),
+            //           border: InputBorder.none,
+            //         ),
+            //         style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            //           fontSize: 30,
+            //           color: Colors.black.withAlpha(255),
+            //         ),
+            //         validator: (value) {
+            //           if (value!.isEmpty) {
+            //             ScaffoldMessenger.of(context).clearSnackBars();
+            //             ScaffoldMessenger.of(context).showSnackBar(
+            //               SnackBar(content: Text('Please enter your name')),
+            //             );
+            //           }
+            //           return 'please enter your name';
+            //         },
+
+            //         onSaved: (value) {},
+            //       ),
+
+            //       TextFormField(
+            //         initialValue: name,
+            //         decoration: InputDecoration(
+            //           labelText: 'Display Name',
+            //           labelStyle: Theme.of(context).textTheme.bodyLarge!
+            //               .copyWith(
+            //                 fontSize: 25,
+            //                 color: Colors.black.withAlpha(150),
+            //               ),
+            //           border: InputBorder.none,
+            //         ),
+            //         style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            //           fontSize: 30,
+            //           color: Colors.black.withAlpha(255),
+            //         ),
+            //         validator: (value) {
+            //           if (value!.isEmpty) {
+            //             ScaffoldMessenger.of(context).clearSnackBars();
+            //             ScaffoldMessenger.of(context).showSnackBar(
+            //               SnackBar(content: Text('Please enter your name')),
+            //             );
+            //           }
+            //           return 'please enter your name';
+            //         },
+
+            //         onSaved: (value) {},
+            //       ),
+            //     ],
+            //   ),
+            // ),
+          ],
+        ),
+      ),
+    );
   }
 }

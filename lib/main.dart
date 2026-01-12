@@ -34,7 +34,7 @@ class MyApp extends ConsumerWidget {
             color: Colors.white,
           ),
           titleMedium: GoogleFonts.poppins(color: Colors.white),
-          bodyLarge: GoogleFonts.carroisGothic(fontWeight: FontWeight.bold),
+          bodyLarge: GoogleFonts.poppins(fontWeight: FontWeight.bold),
           bodyMedium: GoogleFonts.carroisGothic(),
         ),
       ),

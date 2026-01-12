@@ -46,6 +46,9 @@ dependencies:
   cupertino: ^0.0.1
   string_extension: ^0.0.1
   flutter_native_splash: ^2.4.7
+  cloudinary_api: ^1.1.1
+  cloudinary_url_gen: ^1.8.0
+  image_picker: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +79,8 @@ flutter:
     - assets/icons/google.svg
     - assets/icons/google.png
     - assets/images/userdp.png
+    - assets/images/defaultdp.png
+    - assets/button.png
 
 flutter_native_splash:
   color: "#ffffff"

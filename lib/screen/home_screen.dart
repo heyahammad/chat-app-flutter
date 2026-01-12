@@ -7,6 +7,7 @@ import 'package:line_icons/line_icons.dart';
 
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:say/provider/user_provider.dart';
+import 'package:say/screen/profile_screen.dart';
 
 import 'package:say/screen/settings_screen.dart';
 
@@ -40,7 +41,14 @@ class _HomneScreenState extends ConsumerState<HomneScreen> {
     } else {
       content = Container(
         decoration: BoxDecoration(color: Colors.white60),
-        child: Center(child: Text(ref.watch(userNotifierProvider)!.mail)),
+        child: Center(
+          child: InkWell(
+            onTap: () => Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (ctx) => ProfileScreen())),
+            child: Text(ref.watch(userNotifierProvider)!.mail),
+          ),
+        ),
       );
     }
 
@@ -107,11 +115,11 @@ class _HomneScreenState extends ConsumerState<HomneScreen> {
                     ),
                   ],
 
-                  tabs: const [
-                    GButton(icon: LineIcons.home, text: 'Home'),
-                    GButton(icon: LineIcons.list, text: 'People'),
-                    GButton(icon: LineIcons.search, text: 'Search'),
-                    GButton(icon: LineIcons.user, text: 'Profile'),
+                  tabs: [
+                    const GButton(icon: LineIcons.home, text: 'Home'),
+                    const GButton(icon: LineIcons.list, text: 'People'),
+                    const GButton(icon: LineIcons.search, text: 'Search'),
+                    const GButton(icon: LineIcons.user, text: 'Profile'),
                   ],
                 ),
               ),
