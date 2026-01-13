@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,8 +24,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final dp = ref.watch(userNotifierProvider)!.dp;
 
     String name =
-        '${ref.read(userNotifierProvider)!.firstname} ${ref.read(userNotifierProvider)!.lastname}';
-    String email = ref.read(userNotifierProvider)!.mail;
+        '${ref.watch(userNotifierProvider)!.firstname} ${ref.watch(userNotifierProvider)!.lastname}';
+    String email = ref.watch(userNotifierProvider)!.mail;
 
     void updateDp() async {
       final tookImage = await ImagePicker().pickImage(
@@ -35,9 +36,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         return;
       }
 
-      File image = File(tookImage.path);
+      String image = tookImage.path;
 
-      ref.watch(userNotifierProvider.notifier).updateDpBio('', image);
+      ref
+          .read(userNotifierProvider.notifier)
+          .updateDpBio(bio: '', image: image);
     }
 
     return CupertinoPageScaffold(
@@ -56,17 +59,40 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           horizontal: width * 0.05,
           vertical: height * 0.005,
         ),
+        height: double.maxFinite,
+        width: double.maxFinite,
         child: ListView(
           children: [
             GestureDetector(
               onTap: () {
                 updateDp();
               },
-              child: CircleAvatar(
-                radius: width * 0.2,
-                backgroundImage: dp == null
-                    ? AssetImage('assets/images/defaultdp.png')
-                    : FileImage(dp),
+              child: CachedNetworkImage(
+                key: ValueKey(dp),
+                imageUrl: dp!,
+                fit: BoxFit.cover,
+
+                imageBuilder: (context, imageProvider) => Container(
+                  margin: EdgeInsets.symmetric(horizontal: width * 0.2),
+                  width: width * 0.5,
+                  height: width * 0.5,
+                  child: CircleAvatar(
+                    radius: width * 0.25,
+                    backgroundImage: imageProvider,
+                  ),
+                ),
+
+                placeholder: (context, url) => CircleAvatar(
+                  backgroundColor: Colors.grey[200],
+                  radius: width * 0.25,
+                  child: const CircularProgressIndicator(),
+                ),
+
+                errorWidget: (context, url, error) => CircleAvatar(
+                  backgroundColor: Colors.grey[200],
+                  radius: width * 0.25,
+                  child: const Icon(Icons.error, color: Colors.red),
+                ),
               ),
             ),
             SizedBox(height: height * 0.02),

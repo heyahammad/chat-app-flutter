@@ -17,5 +17,5 @@ class User {
   final DateTime dob;
   final String mail;
   final String? bio;
-  final File? dp;
+  final String? dp;
 }

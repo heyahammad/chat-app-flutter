@@ -33,7 +33,7 @@ class MyApp extends ConsumerWidget {
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
-          titleMedium: GoogleFonts.poppins(color: Colors.white),
+          titleMedium: GoogleFonts.inter(color: Colors.white),
           bodyLarge: GoogleFonts.poppins(fontWeight: FontWeight.bold),
           bodyMedium: GoogleFonts.carroisGothic(),
         ),

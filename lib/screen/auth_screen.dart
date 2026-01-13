@@ -60,6 +60,9 @@ class _AuthScreenState extends State<AuthScreen> {
           'lastname': lastname,
           'dob': dob!.toIso8601String(),
           'created_at': DateTime.now(),
+          'bio': '',
+          'imageurl':
+              'https://res.cloudinary.com/dq9jk1wtx/image/upload/v1768256372/defaultdp_pbwicm.png',
         });
 
         if (mounted) {

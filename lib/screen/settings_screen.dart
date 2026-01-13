@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,9 +62,26 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
                       children: [
-                        CircleAvatar(
-                          radius: height * 0.05,
-                          backgroundImage: FileImage(dp!),
+                        CachedNetworkImage(
+                          imageUrl: dp!,
+                          key: ValueKey(dp),
+                          imageBuilder: (context, imageProvider) =>
+                              CircleAvatar(
+                                radius: width * 0.12,
+                                backgroundImage: imageProvider,
+                              ),
+
+                          placeholder: (context, url) => CircleAvatar(
+                            backgroundColor: Colors.grey[200],
+                            radius: width * 0.12,
+                            child: const CircularProgressIndicator(),
+                          ),
+
+                          errorWidget: (context, url, error) => CircleAvatar(
+                            backgroundColor: Colors.grey[200],
+                            radius: width * 0.12,
+                            child: const Icon(Icons.error, color: Colors.red),
+                          ),
                         ),
                         Expanded(
                           child: Container(
