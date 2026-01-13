@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:say/provider/user_provider.dart';
 
@@ -48,7 +49,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         middle: const Text('Profile'),
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            GoRouter.of(context).go('/home');
           },
           icon: const Icon(CupertinoIcons.back),
         ),

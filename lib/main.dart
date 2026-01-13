@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:say/provider/user_provider.dart';
-import 'package:say/screen/home_screen.dart';
+import 'package:say/router/app_router.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:say/screen/auth_screen.dart';
-import 'package:say/screen/splash_screen.dart';
 import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +18,9 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    bool isLogin = true;
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: sayRouter,
+
       debugShowCheckedModeBanner: false,
       title: 'Say',
       theme: ThemeData(
@@ -37,18 +34,6 @@ class MyApp extends ConsumerWidget {
           bodyLarge: GoogleFonts.poppins(fontWeight: FontWeight.bold),
           bodyMedium: GoogleFonts.carroisGothic(),
         ),
-      ),
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (ctx, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return SplashScreen();
-          } else if (snapshot.hasData) {
-            return HomneScreen();
-          } else {
-            return AuthScreen(isLogin: isLogin);
-          }
-        },
       ),
     );
   }

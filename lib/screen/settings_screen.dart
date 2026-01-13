@@ -5,11 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:say/provider/user_provider.dart';
 
-import 'package:say/screen/home_screen.dart';
 import 'package:string_extension/string_extension.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -30,7 +30,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         middle: const Text('Settings'),
         leading: IconButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            GoRouter.of(context).go('/home');
           },
           icon: const Icon(CupertinoIcons.back),
         ),
@@ -468,7 +468,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       onPressed: () {
                         setState(() {
                           FirebaseAuth.instance.signOut();
-                          Navigator.of(context).pop();
                         });
                       },
                       child: Text(
