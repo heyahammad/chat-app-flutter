@@ -6,6 +6,7 @@ import 'package:say/screen/auth_screen.dart';
 import 'package:say/screen/home_screen.dart';
 import 'package:say/screen/nav_screen.dart';
 import 'package:say/screen/profile_screen.dart';
+import 'package:say/screen/search_screen.dart';
 import 'package:say/screen/settings_screen.dart';
 import 'package:say/service/stream_listener.dart';
 
@@ -54,11 +55,7 @@ final GoRouter sayRouter = GoRouter(
           builder: (context, state) => const ProfileScreen(),
         ),
 
-        GoRoute(
-          path: '/search',
-          pageBuilder: (context, state) =>
-              MaterialPage(child: Center(child: Text('Search'))),
-        ),
+        GoRoute(path: '/search', builder: (context, state) => SearchScreen()),
         GoRoute(
           path: '/contacts',
           pageBuilder: (context, state) =>

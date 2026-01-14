@@ -65,17 +65,9 @@ class _HomneScreenState extends ConsumerState<HomneScreen> {
             padding: const EdgeInsets.only(right: 5.0),
             child: IconButton(
               onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(builder: (content) => SettingsScreen()),
-                // );
                 GoRouter.of(context).go('/settings');
               },
-              // icon: HugeIcon(
-              //   icon: HugeIcons.strokeRoundedUserCircle,
-              //   size: 35,
-              //   strokeWidth: 2,
-              //   color: Colors.blueAccent,
-              // ),
+
               icon: Icon(
                 CupertinoIcons.settings,
                 size: 30,
@@ -85,57 +77,6 @@ class _HomneScreenState extends ConsumerState<HomneScreen> {
           ),
         ],
       ),
-      // bottomNavigationBar: SafeArea(
-      //   child: Container(
-      //     margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         Container(
-      //           width: MediaQuery.sizeOf(context).width * 0.8,
-      //           decoration: BoxDecoration(
-      //             color: Color.fromARGB(15, 0, 0, 0),
-      //             borderRadius: BorderRadius.circular(100),
-      //           ),
-      //           child: GNav(
-      //             rippleColor: Colors.grey[300]!,
-      //             hoverColor: Colors.grey[100]!,
-      //             gap: 8,
-      //             activeColor: Colors.black,
-      //             iconSize: 24,
-      //             padding: const EdgeInsets.symmetric(
-      //               horizontal: 20,
-      //               vertical: 12,
-      //             ),
-      //             duration: const Duration(milliseconds: 400),
-      //             tabBackgroundColor: Colors.grey[100]!,
-      //             color: Colors.black,
-      //             tabShadow: [
-      //               BoxShadow(
-      //                 color: Colors.grey.withOpacity(0.1),
-      //                 blurRadius: 8,
-      //               ),
-      //             ],
-
-      //             tabs: [
-      //               const GButton(icon: LineIcons.home, text: 'Home'),
-      //               const GButton(icon: LineIcons.list, text: 'People'),
-      //               const GButton(icon: LineIcons.search, text: 'Search'),
-      //               const GButton(icon: LineIcons.user, text: 'Profile'),
-      //             ],
-      //             onTabChange: (value) {
-      //               if (value == 3) {
-      //                 GoRouter.of(
-      //                   context,
-      //                 ).pushNamed(SayRoutersConstants.profile);
-      //               }
-      //             },
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
       body: content,
     );
   }
