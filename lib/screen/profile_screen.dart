@@ -44,18 +44,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           .updateDpBio(bio: '', image: image);
     }
 
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: const Text('Profile'),
-        leading: IconButton(
-          onPressed: () {
-            GoRouter.of(context).go('/home');
-          },
-          icon: const Icon(CupertinoIcons.back),
-        ),
-      ),
+    return Scaffold(
+      appBar: CupertinoNavigationBar(middle: const Text('Profile')),
       backgroundColor: Colors.white,
-      child: Container(
+      body: Container(
         margin: EdgeInsets.symmetric(
           horizontal: width * 0.05,
           vertical: height * 0.005,

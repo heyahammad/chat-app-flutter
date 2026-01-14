@@ -70,8 +70,6 @@ class _AuthScreenState extends State<AuthScreen> {
             context,
           ).push(MaterialPageRoute(builder: (ctx) => HomneScreen()));
         }
-
-        /* save user credentials*/
       } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(

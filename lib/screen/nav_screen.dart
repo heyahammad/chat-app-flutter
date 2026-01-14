@@ -10,9 +10,8 @@ class SayNavScreen extends StatelessWidget {
 
   static int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.toString();
-    if (location.startsWith('/profile')) return 3;
-    if (location.startsWith('/search')) return 2;
-    if (location.startsWith('/contacts')) return 1;
+    if (location.startsWith('/profile')) return 2;
+    if (location.startsWith('/search')) return 1;
     return 0;
   }
 
@@ -22,12 +21,9 @@ class SayNavScreen extends StatelessWidget {
         context.go('/home');
         break;
       case 1:
-        context.go('/contacts');
-        break;
-      case 2:
         context.go('/search');
         break;
-      case 3:
+      case 2:
         context.go('/profile');
         break;
     }
@@ -67,7 +63,6 @@ class SayNavScreen extends StatelessWidget {
 
               tabs: const [
                 GButton(icon: LineIcons.home, text: 'Home'),
-                GButton(icon: LineIcons.list, text: 'People'),
                 GButton(icon: LineIcons.search, text: 'Search'),
                 GButton(icon: LineIcons.user, text: 'Profile'),
               ],

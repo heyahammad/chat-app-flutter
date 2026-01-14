@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:say/components/search.dart';
+import 'package:say/components/search_result.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -12,26 +14,39 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final controller = TextEditingController();
-
-  void search(String username) async {
+  String title = '';
+  String image = '';
+  String username = '';
+  bool isSearched = false;
+  bool userfound = false;
+  void search(String query) async {
     final users = FirebaseFirestore.instance.collection('users');
 
     QuerySnapshot querySnapshot = await users
-        .where('username', isEqualTo: username)
+        .where('username', isEqualTo: query)
         .get();
 
     if (querySnapshot.docs.isNotEmpty) {
       var userDoc = querySnapshot.docs.first;
       Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+      setState(() {
+        userfound = true;
+        isSearched = true;
+        title = userData['firstname'];
+        username = userData['username'];
+        image = userData['imageurl'];
+      });
     } else {
-      return print('not found..........................');
+      setState(() {
+        userfound = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Search', textAlign: TextAlign.center)),
+      appBar: CupertinoNavigationBar(middle: const Text('Search')),
       body: Container(
         color: Colors.white,
         child: Column(
@@ -43,6 +58,12 @@ class _SearchScreenState extends State<SearchScreen> {
               submit: search,
             ),
             SizedBox(height: 10),
+            if (!isSearched)
+              SizedBox()
+            else if (userfound)
+              SearchResult(image: image, title: title, username: username)
+            else
+              Center(child: Text('No user found.')),
           ],
         ),
       ),

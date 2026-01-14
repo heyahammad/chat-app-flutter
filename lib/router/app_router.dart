@@ -56,11 +56,6 @@ final GoRouter sayRouter = GoRouter(
         ),
 
         GoRoute(path: '/search', builder: (context, state) => SearchScreen()),
-        GoRoute(
-          path: '/contacts',
-          pageBuilder: (context, state) =>
-              MaterialPage(child: Center(child: Text('Contacts'))),
-        ),
       ],
     ),
   ],
