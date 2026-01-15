@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class SearchResult extends StatelessWidget {
-  const SearchResult({
+class ListBuilder extends StatelessWidget {
+  const ListBuilder({
     super.key,
     required this.image,
     required this.title,

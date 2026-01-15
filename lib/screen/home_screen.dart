@@ -7,10 +7,12 @@ import 'package:go_router/go_router.dart';
 import 'package:line_icons/line_icons.dart';
 
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:say/components/list_builder.dart';
 import 'package:say/provider/user_provider.dart';
 import 'package:say/screen/profile_screen.dart';
 
 import 'package:say/screen/settings_screen.dart';
+import 'package:say/service/chat_service.dart';
 
 final user = FirebaseAuth.instance.currentUser;
 final store = FirebaseFirestore.instance;
@@ -23,6 +25,7 @@ class HomneScreen extends ConsumerStatefulWidget {
 }
 
 class _HomneScreenState extends ConsumerState<HomneScreen> {
+  final chatService = ChatService();
   @override
   void initState() {
     super.initState();
@@ -31,31 +34,47 @@ class _HomneScreenState extends ConsumerState<HomneScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userNotifierProvider);
-    Widget content;
-    if (user == null) {
-      content = Center(
-        child: CircularProgressIndicator(
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      );
-    } else {
-      content = Container(
-        decoration: BoxDecoration(color: Colors.white60),
-        child: Center(
-          child: InkWell(
-            onTap: () => Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (ctx) => ProfileScreen())),
-            child: Text(ref.watch(userNotifierProvider)!.mail),
-          ),
-        ),
-      );
-    }
+    final currentUser = FirebaseAuth.instance.currentUser;
+    Widget content = Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: StreamBuilder(
+        stream: chatService.getUserStream(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return const Text('Something went wrong');
+          }
+
+          if (snapshot.hasData) {
+            final userList = snapshot.data!;
+
+            return ListView.builder(
+              itemCount: userList.length,
+              itemBuilder: (context, index) {
+                final user = userList[index];
+
+                return ListBuilder(
+                  image: user['imageurl'],
+                  title: user['firstname'],
+                  username: user['username'],
+                );
+              },
+            );
+          }
+          return Center(child: Text('No user found'));
+        },
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: Padding(
           padding: const EdgeInsets.only(left: 5.0),
           child: Image.asset('assets/logo.png', width: 100),

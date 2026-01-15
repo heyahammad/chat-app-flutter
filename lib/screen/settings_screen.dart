@@ -192,7 +192,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                       .titleMedium!
                                       .copyWith(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         color: Theme.of(
                                           context,
                                         ).colorScheme.onSurface.withAlpha(150),
@@ -257,7 +257,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                       .titleMedium!
                                       .copyWith(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         color: Theme.of(
                                           context,
                                         ).colorScheme.onSurface.withAlpha(150),
@@ -322,7 +322,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                       .titleMedium!
                                       .copyWith(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         color: Theme.of(
                                           context,
                                         ).colorScheme.onSurface.withAlpha(150),
@@ -387,7 +387,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                                       .titleMedium!
                                       .copyWith(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         color: Theme.of(
                                           context,
                                         ).colorScheme.onSurface.withAlpha(150),

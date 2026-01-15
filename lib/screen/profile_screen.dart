@@ -45,8 +45,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     }
 
     return Scaffold(
-      appBar: CupertinoNavigationBar(middle: const Text('Profile')),
-      backgroundColor: Colors.white,
+      appBar: CupertinoNavigationBar(
+        backgroundColor: Color.fromARGB(0, 255, 255, 255),
+        middle: const Text('Profile'),
+      ),
+
       body: Container(
         margin: EdgeInsets.symmetric(
           horizontal: width * 0.05,
@@ -66,11 +69,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 fit: BoxFit.cover,
 
                 imageBuilder: (context, imageProvider) => Container(
-                  margin: EdgeInsets.symmetric(horizontal: width * 0.2),
+                  margin: EdgeInsets.symmetric(horizontal: width * 0.25),
                   width: width * 0.5,
                   height: width * 0.5,
                   child: CircleAvatar(
-                    radius: width * 0.25,
+                    radius: width * 0.20,
                     backgroundImage: imageProvider,
                   ),
                 ),
