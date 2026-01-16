@@ -20,53 +20,65 @@ class _MessageWriteState extends State<MessageWrite> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15),
+      margin: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 10,
+      ), // Added vertical margin
       child: Row(
         children: [
-          TextField(
-            controller: widget.controller,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              prefixIconColor: Colors.black.withAlpha(200),
-
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.grey, width: 2),
-                borderRadius: const BorderRadius.all(Radius.circular(255)),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.black.withAlpha(200),
-                  width: 2,
+          // FIX 1: Wrap TextField in Expanded
+          Expanded(
+            child: TextField(
+              controller: widget.controller,
+              decoration: InputDecoration(
+                // Removed prefixIcon: Search icon looks weird in a chat input
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
                 ),
-
-                borderRadius: BorderRadius.circular(255),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.black.withAlpha(200),
-                  width: 1,
+                border: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(
+                    30,
+                  ), // Smooth round border
                 ),
-                borderRadius: BorderRadius.circular(255),
-              ),
-
-              hint: Text(
-                widget.hintText,
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  color: Colors.grey.withAlpha(200),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(30),
                 ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                hintText: widget.hintText, // Used hintText property directly
+                hintStyle: Theme.of(
+                  context,
+                ).textTheme.bodyMedium!.copyWith(color: Colors.grey),
               ),
+              textCapitalization:
+                  TextCapitalization.sentences, // Better for chat
+              autocorrect: true,
+              obscureText: widget.obscure,
             ),
-            textCapitalization: TextCapitalization.none,
-            autocorrect: null,
-
-            obscureText: widget.obscure,
           ),
-          SizedBox(width: 8),
-          IconButton(
-            onPressed: () => widget.submit,
-            icon: Icon(
-              Icons.send_and_archive_rounded,
+
+          const SizedBox(width: 8),
+
+          Container(
+            decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              onPressed: widget.submit,
+              icon: const Icon(
+                Icons.send_rounded,
+                color: Colors.white,
+                size: 20,
+              ),
             ),
           ),
         ],

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:say/components/message_write.dart';
-import 'package:say/components/writter.dart';
+
 import 'package:say/service/chat_service.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -44,27 +44,42 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget buidldMessageItem(DocumentSnapshot data) {
+    Widget buidldMessageItem(DocumentSnapshot doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
       return Align(
-        alignment: data['senderId'] == auth.currentUser!.uid
+        alignment: data['senderid'] == auth.currentUser!.uid
             ? Alignment.centerRight
             : Alignment.centerLeft,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          decoration: BoxDecoration(
-            color: data['senderId'] == auth.currentUser!.uid
-                ? Colors.blue
-                : Colors.grey[300],
-            borderRadius: BorderRadius.circular(10),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+            decoration: BoxDecoration(
+              color: data['senderid'] == auth.currentUser!.uid
+                  ? Colors.blue
+                  : Colors.grey[300],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              data['message'],
+              style: data['senderid'] == auth.currentUser!.uid
+                  ? Theme.of(
+                      context,
+                    ).textTheme.bodyLarge!.copyWith(color: Colors.white)
+                  : Theme.of(
+                      context,
+                    ).textTheme.bodyLarge!.copyWith(color: Colors.black),
+            ),
           ),
-          child: Text(data['message']),
         ),
       );
     }
 
     return Scaffold(
       appBar: CupertinoNavigationBar(
+        backgroundColor: Color.fromARGB(0, 255, 255, 255),
         leading: GestureDetector(
           onTap: () {
             context.pop();
@@ -73,7 +88,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
 
         middle: Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
             CachedNetworkImage(
               imageUrl: widget.imgurl,
@@ -119,7 +133,9 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
 
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          SizedBox(height: 20),
           Expanded(
             child: StreamBuilder(
               stream: chatService.getMessage(
@@ -148,11 +164,14 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-          MessageWrite(
-            obscure: false,
-            hintText: 'write your message.',
-            controller: messagecontroller,
-            submit: sendMessage,
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10, bottom: 15),
+            child: MessageWrite(
+              obscure: false,
+              hintText: 'write your message.',
+              controller: messagecontroller,
+              submit: sendMessage,
+            ),
           ),
         ],
       ),

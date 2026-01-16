@@ -18,7 +18,6 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    // final key = GlobalKey<FormFieldState>();
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
 
@@ -85,13 +84,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                 placeholder: (context, url) => CircleAvatar(
                   backgroundColor: Colors.grey[200],
-                  radius: width * 0.25,
+                  radius: width * 0.20,
                   child: const CircularProgressIndicator(),
                 ),
 
                 errorWidget: (context, url, error) => CircleAvatar(
                   backgroundColor: Colors.grey[200],
-                  radius: width * 0.25,
+                  radius: width * 0.20,
                   child: const Icon(Icons.error, color: Colors.red),
                 ),
               ),

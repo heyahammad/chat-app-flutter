@@ -24,7 +24,10 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'Say',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+          primary: Colors.blue,
+        ),
         textTheme: TextTheme(
           titleLarge: GoogleFonts.inter(
             fontWeight: FontWeight.bold,
