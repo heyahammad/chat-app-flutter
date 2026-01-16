@@ -63,6 +63,7 @@ class _AuthScreenState extends State<AuthScreen> {
           'bio': '',
           'imageurl':
               'https://res.cloudinary.com/dq9jk1wtx/image/upload/v1768256372/defaultdp_pbwicm.png',
+          'userid': userCredential.user!.uid,
         });
 
         if (mounted) {

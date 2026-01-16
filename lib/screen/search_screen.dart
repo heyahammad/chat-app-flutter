@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:say/components/search.dart';
+import 'package:say/components/writter.dart';
 import 'package:say/components/list_builder.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -60,7 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
         padding: const EdgeInsets.only(top: 15.0),
         child: Column(
           children: [
-            Search(
+            Writter(
               hintText: 'Search user',
               obscure: false,
               controller: controller,

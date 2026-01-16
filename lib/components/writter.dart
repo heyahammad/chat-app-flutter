@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Search extends StatefulWidget {
-  const Search({
+class Writter extends StatefulWidget {
+  const Writter({
     super.key,
     required this.obscure,
     required this.hintText,
@@ -13,10 +13,10 @@ class Search extends StatefulWidget {
   final bool obscure;
   final Function submit;
   @override
-  State<Search> createState() => _SearchState();
+  State<Writter> createState() => _WritterState();
 }
 
-class _SearchState extends State<Search> {
+class _WritterState extends State<Writter> {
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,6 +1,13 @@
-import 'dart:io';
-
 class User {
+  final String firstname;
+  final String lastname;
+  final String username;
+  final DateTime dob;
+  final String mail;
+  final String? bio;
+  final String? dp;
+  final List<String>? friends;
+
   const User({
     required this.firstname,
     required this.lastname,
@@ -11,13 +18,4 @@ class User {
     this.bio,
     this.dp,
   });
-
-  final String firstname;
-  final String lastname;
-  final String username;
-  final DateTime dob;
-  final String mail;
-  final String? bio;
-  final String? dp;
-  final List<String>? friends;
 }

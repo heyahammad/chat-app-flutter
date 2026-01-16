@@ -10,6 +10,7 @@ import 'package:say/screen/profile_screen.dart';
 import 'package:say/screen/search_screen.dart';
 import 'package:say/screen/settings_screen.dart';
 import 'package:say/service/stream_listener.dart';
+import 'package:string_extension/string_extension.dart';
 
 final GoRouter sayRouter = GoRouter(
   initialLocation: '/home',
@@ -48,9 +49,10 @@ final GoRouter sayRouter = GoRouter(
         final userData = state.extra as Map<String, dynamic>;
 
         return ChatScreen(
-          name: userData['firstname'],
+          name: userData['name'],
           username: userData['username'],
           imgurl: userData['imageurl'],
+          receiverId: userData['userid'],
         );
       },
     ),

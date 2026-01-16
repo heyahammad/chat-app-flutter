@@ -15,40 +15,58 @@ class ListBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double avatarSize = 50.0;
-
     return Padding(
-      padding: const EdgeInsets.all(5),
-      child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-        leading: _buildAvatar(avatarSize),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(username),
-      ),
-    );
-  }
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CachedNetworkImage(
+                imageUrl: image,
+                key: ValueKey(image),
+                imageBuilder: (context, imageProvider) =>
+                    CircleAvatar(radius: 22, backgroundImage: imageProvider),
 
-  Widget _buildAvatar(double size) {
-    if (image.isEmpty) {
-      return CircleAvatar(radius: size / 2, child: const Icon(Icons.person));
-    }
-    return CachedNetworkImage(
-      imageUrl: image,
-      imageBuilder: (context, imageProvider) => Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                placeholder: (context, url) => CircleAvatar(
+                  backgroundColor: Colors.grey[200],
+                  radius: 22,
+                  child: const CircularProgressIndicator(),
+                ),
+
+                errorWidget: (context, url, error) => CircleAvatar(
+                  backgroundColor: Colors.grey[200],
+                  radius: 22,
+                  child: const Icon(Icons.error, color: Colors.red),
+                ),
+              ),
+              SizedBox(width: 10),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: Colors.black.withAlpha(200),
+                      fontSize: 15,
+                    ),
+                  ),
+                  Text(
+                    username,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Colors.black.withAlpha(150),
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-      placeholder: (context, url) => SizedBox(
-        width: size,
-        height: size,
-        child: const CircularProgressIndicator(strokeWidth: 2),
-      ),
-      errorWidget: (context, url, error) =>
-          CircleAvatar(radius: size / 2, child: const Icon(Icons.error)),
     );
   }
 }

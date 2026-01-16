@@ -1,6 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:say/components/message_write.dart';
+import 'package:say/components/writter.dart';
+import 'package:say/service/chat_service.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -8,19 +14,55 @@ class ChatScreen extends StatefulWidget {
     required this.username,
     required this.name,
     required this.imgurl,
+    required this.receiverId,
   });
 
   final String username;
   final String name;
   final String imgurl;
+  final String receiverId;
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final chatService = ChatService();
+  final auth = FirebaseAuth.instance;
+
+  final messagecontroller = TextEditingController();
+
+  void sendMessage() async {
+    if (messagecontroller.text.isNotEmpty) {
+      await chatService.sendmessage(
+        receiverId: widget.receiverId,
+        message: messagecontroller.text,
+      );
+      messagecontroller.clear();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    Widget buidldMessageItem(DocumentSnapshot data) {
+      return Align(
+        alignment: data['senderId'] == auth.currentUser!.uid
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          decoration: BoxDecoration(
+            color: data['senderId'] == auth.currentUser!.uid
+                ? Colors.blue
+                : Colors.grey[300],
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(data['message']),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: CupertinoNavigationBar(
         leading: GestureDetector(
@@ -30,7 +72,89 @@ class _ChatScreenState extends State<ChatScreen> {
           child: Icon(CupertinoIcons.back),
         ),
 
-        middle: Text(widget.username),
+        middle: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CachedNetworkImage(
+              imageUrl: widget.imgurl,
+              key: ValueKey(widget.imgurl),
+              imageBuilder: (context, imageProvider) =>
+                  CircleAvatar(radius: 20, backgroundImage: imageProvider),
+
+              placeholder: (context, url) => CircleAvatar(
+                backgroundColor: Colors.grey[200],
+                radius: 20,
+                child: const CircularProgressIndicator(),
+              ),
+
+              errorWidget: (context, url, error) => CircleAvatar(
+                backgroundColor: Colors.grey[200],
+                radius: 20,
+                child: const Icon(Icons.error, color: Colors.red),
+              ),
+            ),
+            SizedBox(width: 10),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.name,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.black.withAlpha(200),
+                    fontSize: 15,
+                  ),
+                ),
+                Text(
+                  '@${widget.username}',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Colors.black.withAlpha(150),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+
+      body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder(
+              stream: chatService.getMessage(
+                auth.currentUser!.uid,
+                widget.receiverId,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Something went wrong.'));
+                }
+                if (snapshot.hasData) {
+                  return ListView(
+                    children: snapshot.data!.docs
+                        .map((doc) => buidldMessageItem(doc))
+                        .toList(),
+                  );
+                }
+                return Center(child: Text('No messages yet.'));
+              },
+            ),
+          ),
+          MessageWrite(
+            obscure: false,
+            hintText: 'write your message.',
+            controller: messagecontroller,
+            submit: sendMessage,
+          ),
+        ],
       ),
     );
   }

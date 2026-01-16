@@ -9,6 +9,7 @@ import 'package:say/components/list_builder.dart';
 import 'package:say/provider/user_provider.dart';
 
 import 'package:say/service/chat_service.dart';
+import 'package:string_extension/string_extension.dart';
 
 final user = FirebaseAuth.instance.currentUser;
 final store = FirebaseFirestore.instance;
@@ -54,20 +55,25 @@ class _HomneScreenState extends ConsumerState<HomneScreen> {
               itemCount: userList.length,
               itemBuilder: (context, index) {
                 final user = userList[index];
+                final String firstName = user['firstname'].toString();
+                final String lastName = user['lastname'].toString();
+                final String name =
+                    '${firstName.capitalize()} ${lastName.capitalize()}';
 
                 return GestureDetector(
                   onTap: () {
                     final userData = {
                       'username': user['username'],
                       'imageurl': user['imageurl'],
-                      'firstname': user['firstname'],
+                      'name': name,
+                      'userid': user['userid'],
                     };
                     context.push('/chat', extra: userData);
                   },
                   child: ListBuilder(
                     image: user['imageurl'],
-                    title: user['firstname'],
-                    username: user['username'],
+                    title: name,
+                    username: '@${user['username']}',
                   ),
                 );
               },
