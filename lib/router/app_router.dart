@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:say/screen/auth_screen.dart';
+import 'package:say/screen/chat_screen.dart';
 import 'package:say/screen/home_screen.dart';
 import 'package:say/screen/nav_screen.dart';
 import 'package:say/screen/profile_screen.dart';
@@ -39,6 +40,19 @@ final GoRouter sayRouter = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
+    ),
+
+    GoRoute(
+      path: '/chat',
+      builder: (context, state) {
+        final userData = state.extra as Map<String, dynamic>;
+
+        return ChatScreen(
+          name: userData['firstname'],
+          username: userData['username'],
+          imgurl: userData['imageurl'],
+        );
+      },
     ),
 
     ShellRoute(

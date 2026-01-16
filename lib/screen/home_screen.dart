@@ -4,14 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:line_icons/line_icons.dart';
 
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:say/components/list_builder.dart';
 import 'package:say/provider/user_provider.dart';
-import 'package:say/screen/profile_screen.dart';
 
-import 'package:say/screen/settings_screen.dart';
 import 'package:say/service/chat_service.dart';
 
 final user = FirebaseAuth.instance.currentUser;
@@ -34,7 +30,6 @@ class _HomneScreenState extends ConsumerState<HomneScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = FirebaseAuth.instance.currentUser;
     Widget content = Padding(
       padding: const EdgeInsets.all(8.0),
       child: StreamBuilder(
@@ -60,10 +55,20 @@ class _HomneScreenState extends ConsumerState<HomneScreen> {
               itemBuilder: (context, index) {
                 final user = userList[index];
 
-                return ListBuilder(
-                  image: user['imageurl'],
-                  title: user['firstname'],
-                  username: user['username'],
+                return GestureDetector(
+                  onTap: () {
+                    final userData = {
+                      'username': user['username'],
+                      'imageurl': user['imageurl'],
+                      'firstname': user['firstname'],
+                    };
+                    context.push('/chat', extra: userData);
+                  },
+                  child: ListBuilder(
+                    image: user['imageurl'],
+                    title: user['firstname'],
+                    username: user['username'],
+                  ),
                 );
               },
             );
@@ -84,7 +89,7 @@ class _HomneScreenState extends ConsumerState<HomneScreen> {
             padding: const EdgeInsets.only(right: 5.0),
             child: IconButton(
               onPressed: () {
-                GoRouter.of(context).go('/settings');
+                GoRouter.of(context).push('/settings');
               },
 
               icon: Icon(

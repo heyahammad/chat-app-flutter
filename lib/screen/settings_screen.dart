@@ -30,7 +30,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         middle: const Text('Settings'),
         leading: IconButton(
           onPressed: () {
-            GoRouter.of(context).go('/home');
+            context.pop();
           },
           icon: const Icon(CupertinoIcons.back),
         ),
